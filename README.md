@@ -1,11 +1,11 @@
 # portfolio_optimization
-A tool that uses a multiobjective genetic algorithm to optimize an investment portfolio's expected return andassociated risk. Built with [streamlit](https://pypi.org/project/streamlit/)
+A tool that uses a multiobjective genetic algorithm to optimize an investment portfolio's expected return andassociated risk. Built with [streamlit](https://pypi.org/project/streamlit/).
 
 ## Methodology
 
-* Extract information from 96 selected tickers (see Tickers section) from Yahoo! Finance using [yfinance](https://pypi.org/project/yfinance/) and [pandas](https://pypi.org/project/pandas/)
+* Extract information from 96 selected tickers (see Tickers section) from Yahoo! Finance using [yfinance](https://pypi.org/project/yfinance/) and [pandas](https://pypi.org/project/pandas/).
 
-* Compute the log returns and covariance matrix using [numpy](https://pypi.org/project/numpy/)
+* Compute the log returns and covariance matrix using [numpy](https://pypi.org/project/numpy/).
 
 * Run Multiobjective Genetic Algorithm to find a group of solutions that approximate the Pareto front. The objective functions are as follows:
   * $\text{max} \sum_{i=n}^{n}w_i \mu_i$
@@ -17,7 +17,7 @@ A tool that uses a multiobjective genetic algorithm to optimize an investment po
     * $W$: Weight vector of the portfolio
     * $\Sigma$: Covariance matrix of the stocks
    
-* Plot the pareto front and weights of an individual solution using [matplotlib](https://pypi.org/project/matplotlib/)
+* Plot the pareto front and weights of an individual solution using [matplotlib](https://pypi.org/project/matplotlib/).
 
 ## Disclaimer
 
