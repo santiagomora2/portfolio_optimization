@@ -235,9 +235,9 @@ def main():
 
         if not modify:
             pop_size = st.slider("Population Size", 10, 40, 30)
-            crossover_rate = st.slider("Crossover Rate", 0.00, 1.00, 0.80)
-            mutation_rate = st.slider("Mutation Rate", 0.00, 1.00, 0.05)
-            generations = st.slider("Number of Generations", 0, 300, 200)
+            crossover_rate = st.slider("Crossover Rate", 0.01, 1.00, 0.80)
+            mutation_rate = st.slider("Mutation Rate", 0.01, 1.00, 0.05)
+            generations = st.slider("Number of Generations", 50, 300, 200)
         else:
             pop_size = 30
             crossover_rate = 0.8
