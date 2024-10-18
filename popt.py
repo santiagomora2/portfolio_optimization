@@ -177,30 +177,23 @@ def get_returns_risks(solutions, values):
 
 def plot_pareto_front(returns, risks):
     # Crear la figura
-    fig, ax = plt.subplots()
-    ax.scatter(returns, risks)
-    ax.grid()
-    ax.set_xlabel('Return')
-    ax.set_ylabel('Risk')
-    ax.set_title('Approximate Pareto Front')
-    return(fig)
+    retris = pd.DataFrame({
+        'Return': returns,
+        'Risk': risks
+    })
+    return(retris)
 
 def plot_single_solution(solution):
     # Graficar solo los stocks cuyos pesos son mayores que 0
-    filtered_tickers = [tickers[i] for i in range(len(solution)) if solution[i] > 0]
-    filtered_weights = [solution[i] for i in range(len(solution)) if solution[i] > 0]
+    filtered_tickers = [tickers[i] for i in range(len(solution)) if solution[i] > 0.002]
+    filtered_weights = [solution[i] for i in range(len(solution)) if solution[i] > 0.002]
 
-    fig, ax = plt.subplots()
+    single_sol = pd.DataFrame({
+        'Asset': filtered_tickers,
+        'Weight': filtered_weights
+    })
 
-    ax.bar(filtered_tickers, filtered_weights)
-
-    ax.set_xlabel('Assets')
-    ax.grid()
-    plt.xticks(rotation=90, fontsize=6)
-    ax.set_ylabel('Optimal Weights')
-    ax.set_title('Filtered Portfolio Weights (Weights > 0)')
-
-    return fig
+    return single_sol
 
 def sort_pareto_values_and_solutions(pareto_values, solutions):
     # Zip pareto_values y solutions para mantener el vínculo
@@ -290,22 +283,26 @@ def main():
             # Allow the user to select a specific solution based on risk
             solution_index = st.slider("Select a solution:", 1, len(st.session_state.solutions), 1)
             
-            if st.button('Show Solution!'):
-                inf = f'Estimated annual return of the selected solution: {100*st.session_state.valuess[solution_index-1][0]:.2f} %'
-                inf2 = f'Estimated annual risk of the selected solution: {100*st.session_state.valuess[solution_index-1][1]:.2f} %'
-                st.write(inf)
-                st.write(inf2)
-                # Simply plot the selected solution without re-running the algorithm
-                fig = plot_single_solution(st.session_state.solutions[solution_index - 1])
-                st.pyplot(fig)
-                st.write('This barplot shows how much each individual asset represents of the total budget, for this individual solution. \n\n')
+            
+            inf = f'Estimated annual return of the selected solution: {100*st.session_state.valuess[solution_index-1][0]:.2f} %'
+            inf2 = f'Estimated annual risk of the selected solution: {100*st.session_state.valuess[solution_index-1][1]:.2f} %'
+            st.write(inf)
+            st.write(inf2)
+            # Simply plot the selected solution without re-running the algorithm
+            single_sol = plot_single_solution(st.session_state.solutions[solution_index - 1])
 
+            st.write('This barplot shows how much each individual asset represents of the total budget, for this individual solution. \n\n')
+
+            st.bar_chart(single_sol, x = 'Asset', y='Weight', horizontal = True)
+            
             # Plot and display the Pareto front
-            fig = plot_pareto_front(returns, risks)
+            retris = plot_pareto_front(returns, risks)
             st.subheader('\nVisualization of solutions in Pareto Front:')
-            st.pyplot(fig)
+
             st.write("In this graph, every dot is a solution in the estimated Pareto front, with it's own estimated risk and retun\n\n")
 
+            st.scatter_chart(retris, x = 'Return', y = 'Risk')
+            
             st.info('If you wish to try other parameters for the GA, please refresh the page', icon="ℹ️")
 
 
